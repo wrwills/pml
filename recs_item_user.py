@@ -160,7 +160,12 @@ def normalise(xs):
 
 def predicted_rating(x, pts):
     neigh = NearestNeighbors(n_neighbors=2)
-    neigh.fit([normalise(pt) for pt in pts])
+    n_pts = [normalise(pt) for pt in pts]
+    neigh.fit(n_pts)
     xn = normalise(x)
     kn = neigh.kneighbors([xn])
-    return kn
+    print(kn)
+    none_position = x.index(None)
+    neighbours = [n_pts[i] for i in kn[1][0]]
+    neighbour_scores = [n[none_position] for n in neighbours]
+    return neighbour_scores
